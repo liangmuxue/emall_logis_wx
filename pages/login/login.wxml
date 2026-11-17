@@ -1,0 +1,7 @@
+<view class="page">
+  <view class="title">自提点</view>
+  <view class="hint">演示账号 pickup，密码 123456</view>
+  <input class="field" placeholder="账号" value="{{username}}" bindinput="onUsername" />
+  <input class="field" password placeholder="密码" value="{{password}}" bindinput="onPassword" />
+  <button class="go" loading="{{loading}}" bindtap="submit">进入</button>
+</view>

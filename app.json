@@ -1,0 +1,11 @@
+{
+  "pages": ["pages/login/login", "pages/index/index", "pages/detail/detail"],
+  "window": {
+    "navigationBarTitleText": "自提点",
+    "navigationBarBackgroundColor": "#f3332b",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f6f6f6"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

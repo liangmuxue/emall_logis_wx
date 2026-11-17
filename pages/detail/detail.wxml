@@ -1,0 +1,39 @@
+<view class="screen" wx:if="{{order}}">
+  <view class="hero">
+    <text>取件码</text>
+    <text class="digits">{{order.pickupCodeText}}</text>
+    <text class="hint">请与顾客出示的取件码核对一致</text>
+    <text class="badge {{order.status === 'READY_PICKUP' ? '' : 'green'}}">{{order.statusName}}</text>
+  </view>
+  <view class="card">
+    <view class="title"><text class="b">订单商品</text><text>共 {{order.goodsQty}} 件</text></view>
+    <view class="goods" wx:for="{{order.items}}" wx:key="name">
+      <view class="meta"><text class="b">{{item.name}}</text><text>{{item.spec}}</text></view>
+      <text class="qty">× {{item.quantity}}</text>
+    </view>
+  </view>
+  <view class="card">
+    <view class="line"><text>顾客</text><text class="b">{{order.buyer}} {{order.mobile}}</text></view>
+    <view class="line"><text>自提点</text><text class="b">{{order.pointName}}</text></view>
+    <view class="line"><text>地址</text><text class="b">{{order.destinationAddress || '未填写'}}</text></view>
+    <view class="line"><text>优惠券</text><text class="b">{{order.couponAmount === '0.00' ? '未使用' : '-¥' + order.couponAmount}}</text></view>
+    <view class="line"><text>积分</text><text class="b">{{order.pointsUsed ? '使用' + order.pointsUsed + '积分，抵¥' + order.pointAmount : '未使用'}}</text></view>
+    <view class="line"><text>满减</text><text class="b">{{order.fullReductionAmount === '0.00' ? '未使用' : '-¥' + order.fullReductionAmount}}</text></view>
+    <view class="line"><text>实付</text><text class="b">¥{{order.payableAmount}}</text></view>
+    <view class="line"><text>订单号</text><text class="b">{{order.orderNo}}</text></view>
+  </view>
+  <view class="bar" wx:if="{{order.status === 'READY_PICKUP'}}">
+    <view class="btn" bindtap="ask">确认已自提</view>
+  </view>
+  <view class="mask" wx:if="{{asking}}" bindtap="close">
+    <view class="dialog" catchtap="noop">
+      <view class="ok">✓</view>
+      <text class="ask">确认顾客已取货？</text>
+      <text class="desc">取件码 <text class="strong">{{order.pickupCodeText}}</text> 核对无误后，订单变为已自提。消费积分等顾客确认收货后到账。</text>
+      <view class="actions">
+        <view bindtap="close">再看看</view>
+        <view class="primary" bindtap="confirm">确认已自提</view>
+      </view>
+    </view>
+  </view>
+</view>

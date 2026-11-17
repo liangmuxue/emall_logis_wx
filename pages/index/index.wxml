@@ -1,0 +1,76 @@
+<view class="screen">
+  <view class="hero" style="padding-top: {{statusBarHeight + 12}}px;" wx:if="{{tab === 'home'}}">
+    <view class="point">
+      <view class="mark">提</view>
+      <view class="copy">
+        <text class="name">{{pointName}}</text>
+        <text class="addr">{{address}}</text>
+      </view>
+      <text class="open">营业中</text>
+    </view>
+    <view class="hero-copy">
+      <text>今日待处理</text>
+      <text class="count">{{waiting}}</text>
+      <text class="unit">笔取件订单等待顾客到店</text>
+    </view>
+  </view>
+  <view class="nav" style="padding-top: {{statusBarHeight}}px;" wx:else>
+    <text>{{tab === 'orders' ? '取件订单' : '我的'}}</text>
+  </view>
+
+  <scroll-view class="body" scroll-y="true" wx:if="{{tab === 'home'}}">
+    <view class="search">
+      <text class="label">取件码核销</text>
+      <view class="row">
+        <input placeholder="输入 6 位取件码" value="{{code}}" bindinput="onCode" />
+        <view class="go" bindtap="search">查询</view>
+      </view>
+      <text class="tip">核对顾客出示的取件码，再确认已自提</text>
+    </view>
+    <view class="summary">
+      <view bindtap="showOrders" data-filter="待自提"><text>待自提</text><text class="num">{{waiting}}</text></view>
+      <view bindtap="showOrders" data-filter="已自提"><text>已自提</text><text class="num">{{picked}}</text></view>
+    </view>
+    <view class="section"><text class="b">待提订单</text></view>
+    <view class="empty" wx:if="{{waitingOrders.length === 0}}">暂时没有待自提订单</view>
+    <view class="card" wx:for="{{waitingOrders}}" wx:key="id" data-id="{{item.id}}" bindtap="open">
+      <view class="top"><text>订单 {{item.orderNo}}</text><text class="badge">待自提</text></view>
+      <view class="mid">
+        <view><text class="tiny">取件码</text><text class="digits">{{item.pickupCodeText}}</text></view>
+        <text class="wait">等待顾客到店</text>
+      </view>
+      <view class="foot"><text>{{item.buyer}} · 共 {{item.goodsQty}} 件商品</text><text class="link">查看商品 ›</text></view>
+    </view>
+    <view class="hint">请当面核对商品数量与取件码，再确认已自提</view>
+  </scroll-view>
+
+  <scroll-view class="body plain" scroll-y="true" wx:elif="{{tab === 'orders'}}">
+    <view class="filters">
+      <view class="{{filter === '待自提' ? 'on' : ''}}" data-filter="待自提" bindtap="setFilter">待自提</view>
+      <view class="{{filter === '已自提' ? 'on' : ''}}" data-filter="已自提" bindtap="setFilter">已自提</view>
+      <view class="{{filter === '已完成' ? 'on' : ''}}" data-filter="已完成" bindtap="setFilter">已完成</view>
+    </view>
+    <view class="empty" wx:if="{{listed.length === 0}}">没有{{filter}}订单</view>
+    <view class="card" wx:for="{{listed}}" wx:key="id" data-id="{{item.id}}" bindtap="open">
+      <view class="top"><text>订单 {{item.orderNo}}</text><text class="badge {{item.status === 'READY_PICKUP' ? '' : 'green'}}">{{item.statusName}}</text></view>
+      <view class="mid">
+        <view><text class="tiny">取件码</text><text class="digits">{{item.pickupCodeText || '—'}}</text></view>
+      </view>
+      <view class="foot"><text>{{item.buyer}} · {{item.goods}}</text><text class="link">查看 ›</text></view>
+    </view>
+  </scroll-view>
+
+  <scroll-view class="body plain" scroll-y="true" wx:else>
+    <view class="mine">
+      <text class="mine-name">{{pointName}}</text>
+      <text class="mine-addr">{{address}}</text>
+      <view class="out" bindtap="logout">退出登录</view>
+    </view>
+  </scroll-view>
+
+  <view class="tabbar">
+    <view class="{{tab === 'home' ? 'on' : ''}}" data-tab="home" bindtap="switchTab"><text class="ico">提</text><text>首页</text></view>
+    <view class="{{tab === 'orders' ? 'on' : ''}}" data-tab="orders" bindtap="switchTab"><text class="ico">单</text><text>订单</text></view>
+    <view class="{{tab === 'mine' ? 'on' : ''}}" data-tab="mine" bindtap="switchTab"><text class="ico">我</text><text>我的</text></view>
+  </view>
+</view>

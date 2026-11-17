@@ -1,0 +1,15 @@
+{
+  "description": "自提点小程序",
+  "packOptions": { "ignore": [], "include": [] },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "minified": false,
+    "enhance": true,
+    "postcss": true
+  },
+  "compileType": "miniprogram",
+  "appid": "touristappid",
+  "projectname": "emall-pickup",
+  "condition": {}
+}
